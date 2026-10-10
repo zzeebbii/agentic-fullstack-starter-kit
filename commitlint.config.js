@@ -28,7 +28,7 @@ export default {
     "scope-enum": [
       1,
       "always",
-      ["api", "web", "contracts", "testing", "e2e", "docker", "ci", "docs", "deps"],
+      ["api", "web", "contracts", "testing", "e2e", "docker", "ci", "docs", "deps", "scripts"],
     ],
     "subject-case": [2, "never", ["pascal-case", "upper-case"]],
     "body-max-line-length": [1, "always", 100],
