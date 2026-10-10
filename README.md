@@ -90,12 +90,24 @@ fastest orientation for humans too.
 
 ## Using this as a template
 
-1. Rename `@kit/*` packages and the `agentic-kit` Compose project name.
-2. Set real owners in `.github/CODEOWNERS` (it ships with a placeholder team).
+1. Create a repository from this template (GitHub's **Use this template**), clone it,
+   and run `pnpm install`.
+2. Initialise it — one command, run once:
+
+   ```bash
+   pnpm init-project my-dashboard --owner @your-github-user
+   ```
+
+   It renames the `@kit/*` packages, the root package, and the Compose project; sets
+   the title (`--title`, defaults to "My Dashboard"), the CODEOWNERS owner, and the
+   `ProblemTypes` URLs (`--problem-base`, defaults to `https://<name>.example/problems`);
+   resets the changelog; regenerates the lockfile and `artifacts/openapi.json`; and
+   removes itself and this section. It refuses a dirty working tree, so
+   `git checkout .` undoes it. Then `pnpm verify` and commit.
+
 3. Replace the `Task` slice with your first real feature — copy its shape, it exists to
    be imitated.
-4. Update `ProblemTypes` URLs in `packages/contracts/src/problem.ts` to your domain.
-5. Add a deploy step; `.github/workflows/ci.yml` publishes images to GHCR and stops
+4. Add a deploy step; `.github/workflows/ci.yml` publishes images to GHCR and stops
    there deliberately.
 
 ## Notable version choices

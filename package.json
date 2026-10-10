@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "preflight": "node scripts/preflight.mjs",
+    "init-project": "node scripts/init-project.mjs",
     "verify": "pnpm run verify:static && pnpm run verify:test && pnpm run verify:build",
     "verify:static": "pnpm run format:check && pnpm run lint && pnpm run typecheck && pnpm run arch:check && pnpm run contract:check && pnpm run deps:check",
     "verify:test": "pnpm run test:unit && pnpm run test:component && pnpm run test:integration",

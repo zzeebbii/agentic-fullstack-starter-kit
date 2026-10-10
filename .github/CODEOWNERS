@@ -4,7 +4,7 @@
 # human review. This is the boundary between "the agent does the work" and "the
 # agent redefines what correct means".
 #
-# Replace @your-org/maintainers with a real team before using this template.
+# The owner below is set by `pnpm init-project --owner` (see README).
 
 # The architecture contract and the checks that enforce it.
 /.dependency-cruiser.cjs      @your-org/maintainers
