@@ -11,7 +11,7 @@ ARG NODE_VERSION=24
 # ---------------------------------------------------------------------------
 # deps — install workspace dependencies with a cached pnpm store
 # ---------------------------------------------------------------------------
-FROM node:${NODE_VERSION}-bookworm-slim AS deps
+FROM node:${NODE_VERSION}-trixie-slim AS deps
 ENV PNPM_HOME=/pnpm
 ENV PATH="${PNPM_HOME}:${PATH}"
 # Point the store AT the BuildKit cache mount below. Without this, pnpm chooses
@@ -46,16 +46,19 @@ RUN pnpm --filter @kit/contracts run build \
     && pnpm --filter @kit/api run build
 
 # Strip dev dependencies so only runtime deps are copied into the final image.
+# `install --prod` only relinks: packages already in node_modules/.pnpm stay put
+# (and dev tools ship Go binaries Trivy flags), so start from empty node_modules.
 # --ignore-scripts: no runtime dependency needs a build step, and skipping them
 # removes an arbitrary-code-execution surface from the image build.
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
-    pnpm install --frozen-lockfile --prod --ignore-scripts \
+    rm -rf node_modules apps/*/node_modules packages/*/node_modules e2e/node_modules \
+    && pnpm install --frozen-lockfile --prod --ignore-scripts \
       --filter @kit/api... --filter @kit/contracts
 
 # ---------------------------------------------------------------------------
 # runtime — distroless, non-root
 # ---------------------------------------------------------------------------
-FROM gcr.io/distroless/nodejs${NODE_VERSION}-debian12:nonroot AS runtime
+FROM gcr.io/distroless/nodejs${NODE_VERSION}-debian13:nonroot AS runtime
 WORKDIR /app
 
 ENV NODE_ENV=production
